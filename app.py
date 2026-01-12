@@ -9,7 +9,6 @@ import time
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import nltk
 import plotly.graph_objects as go
 
 from wordcloud import WordCloud
@@ -22,9 +21,12 @@ import backend
 
 
 # ---------------------------
-# NLTK DOWNLOADS
+# PAGE CONFIG
 # ---------------------------
-nltk.download("punkt")
+st.set_page_config(
+    page_title="Sentiment Analysis",
+    layout="wide"
+)
 
 
 # ---------------------------
@@ -39,14 +41,15 @@ df = load_data()
 
 
 # ---------------------------
-# APP LAYOUT
+# HEADER
 # ---------------------------
-st.set_page_config(page_title="Sentiment Analysis", layout="wide")
-
 st.title("Sentiment Analysis System")
 st.write("Analyze and predict sentiment from textual reviews.")
 
 
+# ---------------------------
+# SIDEBAR MENU
+# ---------------------------
 menu = st.sidebar.selectbox(
     "Select Option",
     ["Visualization", "Prediction"]
@@ -82,16 +85,19 @@ if menu == "Visualization":
         else:
             text = " ".join(df["verified_reviews"].astype(str))
 
-        wordcloud = WordCloud(
-            background_color="white",
-            width=800,
-            height=400
-        ).generate(text)
+        if text.strip() == "":
+            st.warning("No text available for word cloud.")
+        else:
+            wordcloud = WordCloud(
+                background_color="white",
+                width=800,
+                height=400
+            ).generate(text)
 
-        fig, ax = plt.subplots()
-        ax.imshow(wordcloud)
-        ax.axis("off")
-        st.pyplot(fig)
+            fig, ax = plt.subplots()
+            ax.imshow(wordcloud)
+            ax.axis("off")
+            st.pyplot(fig)
 
     # SENTIMENT DISTRIBUTION
     if vis_option == "Sentiment Distribution":
@@ -135,14 +141,14 @@ if menu == "Prediction":
 
     user_input = st.text_area("Enter review text")
 
-    if user_input.strip() == "":
-        st.warning("Please enter some text.")
-    else:
-        user_text = [user_input]
+    if st.button("Predict Sentiment"):
 
-        X_train, X_test, y_train, y_test, vectorizer = backend.reset_feature()
+        if user_input.strip() == "":
+            st.warning("Please enter some text.")
+        else:
+            user_text = [user_input]
 
-        if st.button("Predict Sentiment"):
+            X_train, X_test, y_train, y_test, vectorizer = backend.reset_feature()
 
             with st.spinner("Processing..."):
                 time.sleep(1)
@@ -165,7 +171,6 @@ if menu == "Prediction":
                 )
 
             st.success("Prediction Completed")
-
             st.metric("Predicted Sentiment", prediction)
 
             st.subheader("Model Evaluation")

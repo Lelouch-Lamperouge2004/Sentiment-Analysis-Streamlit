@@ -3,10 +3,5 @@ pandas
 numpy
 scikit-learn
 matplotlib
-seaborn
 plotly
-nltk
 wordcloud
-imbalanced-learn
-transformers
-torch

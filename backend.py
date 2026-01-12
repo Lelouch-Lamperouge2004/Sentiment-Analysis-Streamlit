@@ -1,18 +1,9 @@
 import pandas as pd
-import numpy as np
+import re
 
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import classification_report
-from sklearn.metrics import roc_auc_score
-
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
-import nltk
-
-nltk.download("punkt")
-nltk.download("stopwords")
 
 
 # ---------------------------
@@ -23,25 +14,17 @@ def preprocess_text(text):
         return ""
 
     text = text.lower()
-    tokens = word_tokenize(text)
+    text = re.sub(r"[^a-z\s]", "", text)
+    tokens = text.split()
 
-    stop_words = set(stopwords.words("english"))
-    stemmer = PorterStemmer()
-
-    cleaned = [
-        stemmer.stem(word)
-        for word in tokens
-        if word.isalpha() and word not in stop_words
-    ]
-
-    return " ".join(cleaned)
+    return " ".join(tokens)
 
 
 # ---------------------------
 # LOAD DATASET
 # ---------------------------
 def load_dataset():
-    df = pd.read_csv("data/reviews.csv")
+    df = pd.read_csv("reviews.csv")
 
     df = df[["verified_reviews", "feedback"]]
     df.dropna(inplace=True)
@@ -64,7 +47,11 @@ def reset_feature():
     X_vec = vectorizer.fit_transform(X)
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X_vec, y, test_size=0.2, random_state=42, stratify=y
+        X_vec,
+        y,
+        test_size=0.2,
+        random_state=42,
+        stratify=y
     )
 
     return X_train, X_test, y_train, y_test, vectorizer
@@ -84,7 +71,9 @@ def simple_predict(model, user_text, X_train, y_train, vectorizer):
     y_pred_train = model.predict(X_train)
 
     report = classification_report(
-        y_train, y_pred_train, output_dict=True
+        y_train,
+        y_pred_train,
+        output_dict=True
     )
 
     return sentiment, report
