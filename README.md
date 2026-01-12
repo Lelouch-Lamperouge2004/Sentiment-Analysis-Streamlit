@@ -88,28 +88,18 @@ streamlit run app.py
 
 
 The application will open automatically in your web browser.
-Use Cases
-
+Use Cases :
 Customer feedback analysis
-
 Product review analysis
-
 Opinion mining
-
 Academic and learning projects
-
 Business sentiment insights
 
-Future Enhancements
-
+<br>Future Enhancements :
 Add neutral sentiment classification
-
 Integrate deep learning models (LSTM, BERT)
-
 Allow CSV file upload for bulk analysis
-
 Add sentiment trend analysis over time
 
-Conclusion
-
+<br>Conclusion :
 The Sentiment Analysis Web Application using Streamlit provides an easy-to-use and effective solution for understanding textual sentiment. With its clean interface, real-time predictions, and visual insights, the project demonstrates practical application of machine learning and NLP concepts in a real-world scenario.
