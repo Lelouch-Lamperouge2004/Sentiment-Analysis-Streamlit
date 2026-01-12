@@ -55,8 +55,6 @@ sentiment-analysis-app/
 ## How to Run the Project Locally
 
 1. Clone the repository  
-   git clone https://github.com/your-username/your-repository-name.git  
-   cd your-repository-name  
 
 2. Create a virtual environment (optional but recommended)  
    python -m venv venv  
