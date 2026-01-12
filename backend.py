@@ -4,6 +4,7 @@ import re
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import classification_report
+from sklearn.utils.class_weight import compute_sample_weight
 
 
 # ---------------------------
@@ -58,21 +59,29 @@ def reset_feature():
 
 
 # ---------------------------
-# SIMPLE PREDICTION
+# SIMPLE PREDICTION (BALANCED)
 # ---------------------------
-def simple_predict(model, user_text, X_train, y_train, vectorizer):
-    model.fit(X_train, y_train)
+def simple_predict(model, user_text, X_train, y_train, X_test, y_test, vectorizer):
+    sample_weights = compute_sample_weight(
+        class_weight="balanced",
+        y=y_train
+    )
+
+    try:
+        model.fit(X_train, y_train, sample_weight=sample_weights)
+    except TypeError:
+        model.fit(X_train, y_train)
 
     user_vec = vectorizer.transform(user_text)
     pred = model.predict(user_vec)[0]
 
     sentiment = "Positive" if pred == 1 else "Negative"
 
-    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
 
     report = classification_report(
-        y_train,
-        y_pred_train,
+        y_test,
+        y_pred_test,
         output_dict=True
     )
 
