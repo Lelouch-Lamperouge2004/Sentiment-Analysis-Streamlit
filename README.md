@@ -38,11 +38,11 @@ https://sentiment-analysis-app-wlhpdgtxsrujcuepwjimzk.streamlit.app
 ## Project Structure
 
 sentiment-analysis-app/
-├── app.py
-├── backend.py
-├── requirements.txt
-├── README.md
-└── .gitignore
+<br>├── app.py
+<br>├── backend.py
+<br>├── requirements.txt
+<br>├── README.md
+<br>└── .gitignore
 
 ## How the System Works
 
