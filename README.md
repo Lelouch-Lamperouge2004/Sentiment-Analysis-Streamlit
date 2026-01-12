@@ -72,17 +72,18 @@ sentiment-analysis-app/
 ## How to Run the Project Locally
 
 ### Step 1: Clone the Repository
-```bash
+
 git clone https://github.com/your-username/your-repository-name.git
 cd your-repository-name
-tep 2: Create a Virtual Environment (Optional but Recommended)
+
+### Step 2: Create a Virtual Environment (Optional but Recommended)
 python -m venv venv
 venv\Scripts\activate
 
-Step 3: Install Dependencies
+### Step 3: Install Dependencies
 pip install -r requirements.txt
 
-Step 4: Run the Application
+### Step 4: Run the Application
 streamlit run app.py
 
 
